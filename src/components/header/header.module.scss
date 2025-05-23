@@ -1,0 +1,48 @@
+a {
+  color: rgb(253, 254, 255);
+}
+.header {
+  padding: 10px 15px 0 15px;
+  color: rgb(253, 254, 255);
+  animation: fadeIn 2s ease-in-out forwards;
+}
+.logo {
+  height: 45px;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.wrapper {
+  background-color: rgb(39, 39, 39);
+  padding: 15px 15px;
+  -webkit-box-shadow: 12px 10px 18px 7px rgba(76, 76, 76, 0.2);
+  -moz-box-shadow: 12px 10px 18px 7px rgba(76, 76, 76, 0.2);
+  box-shadow: 12px 10px 18px 7px rgba(76, 76, 76, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 25px;
+}
+
+.navigate {
+  width: 300px;
+}
+
+.ul {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.li {
+  font-size: 18px;
+}

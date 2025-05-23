@@ -1,0 +1,141 @@
+.main {
+  height: calc(100vh - 85px);
+}
+.wrapperContent {
+  height: 100%;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.cardInfo {
+  overflow-x: auto;
+  min-height: 100%;
+  max-width: 600px;
+  background-color: rgb(39, 39, 39);
+  border-radius: 10px;
+  padding: 28px 22px;
+  position: relative;
+  animation: card 2s cubic-bezier(0.88, -0.55, 0.265, 1.45);
+}
+.photoRestaurant {
+  height: 100%;
+  max-width: 1000px;
+
+  border-radius: 7px;
+  scale: 0.9;
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes card {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+.title {
+  font-size: 27px;
+  font-weight: 600;
+  text-align: center;
+}
+.subTitle {
+  font-size: 22px;
+  margin-top: 17px;
+  text-align: center;
+}
+p {
+  font-size: 19px;
+}
+.mainCard {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.footerCard {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+.publishSpan {
+  margin-right: 7px;
+}
+.ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  color: aliceblue;
+}
+.li {
+  font-size: 18px;
+  list-style-type: disc;
+}
+.pFirstPhoto {
+  margin-top: 17px;
+}
+
+.wrapperRunner {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  animation: test 2s ease-in-out forwards;
+}
+@keyframes test {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.marquee {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-direction: column;
+
+  animation: scroll 7s linear infinite;
+}
+
+.runnerVertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -4px;
+  white-space: nowrap;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0%);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
