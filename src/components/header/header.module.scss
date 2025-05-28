@@ -27,6 +27,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1720px;
+  margin: 0 auto;
 }
 
 .title {
@@ -34,7 +36,7 @@ a {
 }
 
 .navigate {
-  width: 300px;
+  width: 400px;
 }
 
 .ul {
@@ -45,4 +47,47 @@ a {
 }
 .li {
   font-size: 18px;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .wrapper {
+    padding: 12px;
+  }
+
+  .logo {
+    height: 35px;
+  }
+
+  .navigate {
+    width: 350px;
+  }
+
+  .li {
+    font-size: 16px;
+  }
+}
+
+/* Small tablet view */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 10px;
+  }
+
+  .logo {
+    height: 30px;
+  }
+
+  .navigate {
+    width: 320px;
+  }
+
+  .li {
+    font-size: 14px;
+  }
 }

@@ -49,10 +49,6 @@ const MainContent = () => {
               просто еда, это целый опыт.
             </p>
           </div>
-          <div className={style.footerCard}>
-            <span className={style.publishSpan}>публикация 360:</span>
-            <span>18/05/2025</span>
-          </div>
         </div>
 
         <section className={style.wrapperRunner}>

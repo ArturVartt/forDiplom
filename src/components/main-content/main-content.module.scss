@@ -1,26 +1,32 @@
 .main {
   height: calc(100vh - 85px);
+  max-width: 1740px;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 .wrapperContent {
   height: 100%;
-  padding: 15px 20px;
+  padding: 15px 0;
   display: flex;
   justify-content: space-between;
+  gap: 40px;
 }
 .cardInfo {
   overflow-x: auto;
   min-height: 100%;
   max-width: 600px;
+  width: 100%;
   background-color: rgb(39, 39, 39);
   border-radius: 10px;
-  padding: 28px 22px;
+  padding: 28px 32px;
   position: relative;
   animation: card 2s cubic-bezier(0.88, -0.55, 0.265, 1.45);
 }
 .photoRestaurant {
   height: 100%;
-  max-width: 1000px;
-
+  max-width: 1200px;
+  width: 100%;
+  object-fit: cover;
   border-radius: 7px;
   scale: 0.9;
   animation: fadeIn 2s ease-in-out forwards;
@@ -61,6 +67,7 @@
 }
 p {
   font-size: 19px;
+  line-height: 1.5;
 }
 .mainCard {
   display: flex;
@@ -79,8 +86,8 @@ p {
   display: flex;
   flex-direction: column;
   gap: 12px;
-
   color: aliceblue;
+  padding-left: 20px;
 }
 .li {
   font-size: 18px;
@@ -97,6 +104,8 @@ p {
   border-left: 1px solid white;
   border-right: 1px solid white;
   animation: test 2s ease-in-out forwards;
+  width: 70px;
+  position: relative;
 }
 @keyframes test {
   0% {
@@ -112,10 +121,13 @@ p {
 .marquee {
   display: flex;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0;
   flex-direction: column;
-
-  animation: scroll 7s linear infinite;
+  animation: scroll 15s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .runnerVertical {
@@ -125,17 +137,108 @@ p {
   font-weight: 600;
   letter-spacing: -4px;
   white-space: nowrap;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 @keyframes scroll {
   0% {
-    transform: translateY(0%);
-    opacity: 0;
-  }
-  15% {
-    opacity: 1;
+    transform: translate(-50%, 0%);
   }
   100% {
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .main {
+    padding: 0 20px;
+  }
+
+  .wrapperContent {
+    padding: 12px 0;
+    gap: 25px;
+  }
+
+  .cardInfo {
+    max-width: 600px;
+    padding: 22px 18px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subTitle {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 17px;
+  }
+
+  .li {
+    font-size: 16px;
+  }
+
+  .photoRestaurant {
+    scale: 0.95;
+  }
+
+  .wrapperRunner {
+    width: 60px;
+  }
+
+  .runnerVertical {
+    font-size: 22px;
+  }
+}
+
+/* Small tablet view */
+@media (max-width: 768px) {
+  .main {
+    padding: 0 15px;
+  }
+
+  .wrapperContent {
+    padding: 10px 0;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cardInfo {
+    max-width: 100%;
+    min-height: auto;
+    padding: 20px 15px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subTitle {
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  .li {
+    font-size: 15px;
+  }
+
+  .photoRestaurant {
+    width: 100%;
+    height: auto;
+    scale: 1;
+  }
+
+  .marquee {
+    display: none;
+  }
+
+  .wrapperRunner {
+    display: none;
   }
 }
