@@ -4,10 +4,26 @@ import styles from "./Cart.module.scss";
 
 const Cart = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const { items, removeItem, updateQuantity, total, clearCart } = useCart();
+
+  const handlePlaceOrder = () => {
+    setShowNotification(true);
+    clearCart();
+    setIsOpen(false);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+  };
 
   return (
     <div className={styles.cartContainer}>
+      {showNotification && (
+        <div className={styles.notification}>
+          Спасибо за заказ! Мы свяжемся с вами в ближайшее время
+        </div>
+      )}
+
       <button className={styles.cartButton} onClick={() => setIsOpen(!isOpen)}>
         🛒{" "}
         {items.length > 0 && (
@@ -68,7 +84,12 @@ const Cart = () => {
                   <span>Итого:</span>
                   <span>{total} ₽</span>
                 </div>
-                <button className={styles.orderButton}>Оформить заказ</button>
+                <button
+                  className={styles.orderButton}
+                  onClick={handlePlaceOrder}
+                >
+                  Оформить заказ
+                </button>
               </div>
             </>
           )}

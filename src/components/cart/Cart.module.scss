@@ -243,3 +243,39 @@
     max-width: 320px;
   }
 }
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(39, 174, 96, 0.9);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1100;
+  animation: slideInNotification 0.3s ease, fadeOutNotification 0.3s ease 2.7s;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes slideInNotification {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutNotification {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
