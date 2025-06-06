@@ -1,7 +1,8 @@
+import React from "react";
 import styles from "./Pages.module.scss";
 import { useCart } from "../context/CartContext";
+import { useState } from "react";
 
-// Импорт изображений
 const menuImages = {
   "Тартар из тунца":
     "https://images.unsplash.com/photo-1546039907-7fa05f864c02?w=500",
@@ -25,8 +26,21 @@ const menuImages = {
     "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=500",
 };
 
+interface MenuItemChild {
+  type?: string;
+  props?: {
+    className?: string;
+    children?: React.ReactNode;
+  };
+}
+
+interface MenuItemProps {
+  children: MenuItemChild[];
+}
+
 const Menu = () => {
   const { addItem } = useCart();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleAddToCart = (name: string, price: number) => {
     addItem({
@@ -36,215 +50,246 @@ const Menu = () => {
     });
   };
 
+  const filterMenuItems = (
+    items: React.ReactElement<MenuItemProps>[],
+    query: string
+  ) => {
+    if (!query) return items;
+    const lowerQuery = query.toLowerCase();
+
+    return items.filter((item) => {
+      try {
+        const children = item.props.children;
+
+        const menuItemContent = children.find(
+          (child) => child?.props?.className === styles.menuItemContent
+        );
+
+        if (!menuItemContent?.props?.children) return false;
+
+        const contentChildren = menuItemContent.props
+          .children as MenuItemChild[];
+
+        const title =
+          (contentChildren.find((child) => child?.type === "h3")?.props
+            ?.children as string) || "";
+
+        const description =
+          (contentChildren.find((child) => child?.type === "p")?.props
+            ?.children as string) || "";
+
+        return (
+          title.toLowerCase().includes(lowerQuery) ||
+          description.toLowerCase().includes(lowerQuery)
+        );
+      } catch (error) {
+        console.error("Error while filtering item:", error);
+        return false;
+      }
+    });
+  };
+
+  const createMenuSection = (
+    title: string,
+    items: React.ReactElement<MenuItemProps>[]
+  ) => {
+    const filteredItems = filterMenuItems(items, searchQuery);
+    if (filteredItems.length === 0) return null;
+
+    return (
+      <div className={styles.menuSection}>
+        <h2>{title}</h2>
+        <div className={styles.menuItems}>{filteredItems}</div>
+      </div>
+    );
+  };
+
+  const coldAppetizers = [
+    <div key="tartar" className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Тартар из тунца"]} alt="Тартар из тунца" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Тартар из тунца</h3>
+        <p>Свежий тунец с авокадо, каперсами и цитрусовой заправкой</p>
+        <div className={styles.menuItemFooter}>
+          <span>1800 ₽</span>
+          <button onClick={() => handleAddToCart("Тартар из тунца", 1800)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img
+          src={menuImages["Карпаччо из говядины"]}
+          alt="Карпаччо из говядины"
+        />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Карпаччо из говядины</h3>
+        <p>Тонко нарезанная мраморная говядина с рукколой и пармезаном</p>
+        <div className={styles.menuItemFooter}>
+          <span>1600 ₽</span>
+          <button onClick={() => handleAddToCart("Карпаччо из говядины", 1600)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img
+          src={menuImages["Устрицы Фин де Клер"]}
+          alt="Устрицы Фин де Клер"
+        />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Устрицы Фин де Клер</h3>
+        <p>Свежие французские устрицы с лимоном и соусом мигронет</p>
+        <div className={styles.menuItemFooter}>
+          <span>450 ₽/шт</span>
+          <button onClick={() => handleAddToCart("Устрицы Фин де Клер", 450)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+  ];
+
+  const mainCourses = [
+    <div key="filet-mignon" className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Филе миньон"]} alt="Филе миньон" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Филе миньон</h3>
+        <p>Нежное филе говядины с соусом из черного перца и трюфелей</p>
+        <div className={styles.menuItemFooter}>
+          <span>2900 ₽</span>
+          <button onClick={() => handleAddToCart("Филе миньон", 2900)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Лосось на гриле"]} alt="Лосось на гриле" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Лосось на гриле</h3>
+        <p>С соусом из белого вина и свежими травами</p>
+        <div className={styles.menuItemFooter}>
+          <span>2400 ₽</span>
+          <button onClick={() => handleAddToCart("Лосось на гриле", 2400)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img
+          src={menuImages["Ризотто с белыми грибами"]}
+          alt="Ризотто с белыми грибами"
+        />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Ризотто с белыми грибами</h3>
+        <p>Кремовое ризотто с белыми грибами и пармезаном</p>
+        <div className={styles.menuItemFooter}>
+          <span>1800 ₽</span>
+          <button
+            onClick={() => handleAddToCart("Ризотто с белыми грибами", 1800)}
+          >
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Утиная грудка"]} alt="Утиная грудка" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Утиная грудка</h3>
+        <p>С карамелизированной грушей и соусом из красного вина</p>
+        <div className={styles.menuItemFooter}>
+          <span>2200 ₽</span>
+          <button onClick={() => handleAddToCart("Утиная грудка", 2200)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+  ];
+
+  const desserts = [
+    <div key="fondan" className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Шоколадный фондан"]} alt="Шоколадный фондан" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Шоколадный фондан</h3>
+        <p>С ванильным мороженым и малиновым соусом</p>
+        <div className={styles.menuItemFooter}>
+          <span>950 ₽</span>
+          <button onClick={() => handleAddToCart("Шоколадный фондан", 950)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Крем-брюле"]} alt="Крем-брюле" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Крем-брюле</h3>
+        <p>Классический французский десерт с карамельной корочкой</p>
+        <div className={styles.menuItemFooter}>
+          <span>850 ₽</span>
+          <button onClick={() => handleAddToCart("Крем-брюле", 850)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+    <div className={styles.menuItem}>
+      <div className={styles.menuItemImage}>
+        <img src={menuImages["Тирамису"]} alt="Тирамису" />
+      </div>
+      <div className={styles.menuItemContent}>
+        <h3>Тирамису</h3>
+        <p>Классический итальянский десерт с кофейным ароматом</p>
+        <div className={styles.menuItemFooter}>
+          <span>850 ₽</span>
+          <button onClick={() => handleAddToCart("Тирамису", 850)}>
+            В корзину
+          </button>
+        </div>
+      </div>
+    </div>,
+  ];
+
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>Меню</h1>
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="Поиск блюд..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.searchInput}
+        />
+      </div>
       <div className={styles.content}>
-        <div className={styles.menuSection}>
-          <h2>Холодные закуски</h2>
-          <div className={styles.menuItems}>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img
-                  src={menuImages["Тартар из тунца"]}
-                  alt="Тартар из тунца"
-                />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Тартар из тунца</h3>
-                <p>Свежий тунец с авокадо, каперсами и цитрусовой заправкой</p>
-                <div className={styles.menuItemFooter}>
-                  <span>1800 ₽</span>
-                  <button
-                    onClick={() => handleAddToCart("Тартар из тунца", 1800)}
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img
-                  src={menuImages["Карпаччо из говядины"]}
-                  alt="Карпаччо из говядины"
-                />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Карпаччо из говядины</h3>
-                <p>
-                  Тонко нарезанная мраморная говядина с рукколой и пармезаном
-                </p>
-                <div className={styles.menuItemFooter}>
-                  <span>1600 ₽</span>
-                  <button
-                    onClick={() =>
-                      handleAddToCart("Карпаччо из говядины", 1600)
-                    }
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img
-                  src={menuImages["Устрицы Фин де Клер"]}
-                  alt="Устрицы Фин де Клер"
-                />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Устрицы Фин де Клер</h3>
-                <p>Свежие французские устрицы с лимоном и соусом мигронет</p>
-                <div className={styles.menuItemFooter}>
-                  <span>450 ₽/шт</span>
-                  <button
-                    onClick={() => handleAddToCart("Устрицы Фин де Клер", 450)}
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.menuSection}>
-          <h2>Основные блюда</h2>
-          <div className={styles.menuItems}>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img src={menuImages["Филе миньон"]} alt="Филе миньон" />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Филе миньон</h3>
-                <p>Нежное филе говядины с соусом из черного перца и трюфелей</p>
-                <div className={styles.menuItemFooter}>
-                  <span>2900 ₽</span>
-                  <button onClick={() => handleAddToCart("Филе миньон", 2900)}>
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img
-                  src={menuImages["Лосось на гриле"]}
-                  alt="Лосось на гриле"
-                />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Лосось на гриле</h3>
-                <p>С соусом из белого вина и свежими травами</p>
-                <div className={styles.menuItemFooter}>
-                  <span>2400 ₽</span>
-                  <button
-                    onClick={() => handleAddToCart("Лосось на гриле", 2400)}
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img
-                  src={menuImages["Ризотто с белыми грибами"]}
-                  alt="Ризотто с белыми грибами"
-                />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Ризотто с белыми грибами</h3>
-                <p>Кремовое ризотто с белыми грибами и пармезаном</p>
-                <div className={styles.menuItemFooter}>
-                  <span>1800 ₽</span>
-                  <button
-                    onClick={() =>
-                      handleAddToCart("Ризотто с белыми грибами", 1800)
-                    }
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img src={menuImages["Утиная грудка"]} alt="Утиная грудка" />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Утиная грудка</h3>
-                <p>С карамелизированной грушей и соусом из красного вина</p>
-                <div className={styles.menuItemFooter}>
-                  <span>2200 ₽</span>
-                  <button
-                    onClick={() => handleAddToCart("Утиная грудка", 2200)}
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.menuSection}>
-          <h2>Десерты</h2>
-          <div className={styles.menuItems}>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img
-                  src={menuImages["Шоколадный фондан"]}
-                  alt="Шоколадный фондан"
-                />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Шоколадный фондан</h3>
-                <p>С ванильным мороженым и малиновым соусом</p>
-                <div className={styles.menuItemFooter}>
-                  <span>950 ₽</span>
-                  <button
-                    onClick={() => handleAddToCart("Шоколадный фондан", 950)}
-                  >
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img src={menuImages["Крем-брюле"]} alt="Крем-брюле" />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Крем-брюле</h3>
-                <p>Классический французский десерт с карамельной корочкой</p>
-                <div className={styles.menuItemFooter}>
-                  <span>850 ₽</span>
-                  <button onClick={() => handleAddToCart("Крем-брюле", 850)}>
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className={styles.menuItem}>
-              <div className={styles.menuItemImage}>
-                <img src={menuImages["Тирамису"]} alt="Тирамису" />
-              </div>
-              <div className={styles.menuItemContent}>
-                <h3>Тирамису</h3>
-                <p>Классический итальянский десерт с кофейным ароматом</p>
-                <div className={styles.menuItemFooter}>
-                  <span>850 ₽</span>
-                  <button onClick={() => handleAddToCart("Тирамису", 850)}>
-                    В корзину
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {createMenuSection("Холодные закуски", coldAppetizers)}
+        {createMenuSection("Основные блюда", mainCourses)}
+        {createMenuSection("Десерты", desserts)}
       </div>
     </div>
   );
