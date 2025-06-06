@@ -23,15 +23,6 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
-      "@typescript-eslint/ban-ts-comment": [
-        "error",
-        {
-          "ts-ignore": false, // разрешить ts-ignore
-          "ts-expect-error": true, // оставить проверку
-          "ts-nocheck": true,
-          "ts-check": false,
-        },
-      ],
     },
   }
 );

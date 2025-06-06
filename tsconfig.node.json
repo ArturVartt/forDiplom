@@ -19,12 +19,7 @@
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-
-    "ts-check": false,
-    "ts-expect-error": "allow-with-description",
-    "ts-ignore": true,
-    "ts-nocheck": true
+    "noUncheckedSideEffectImports": true
   },
   "include": ["vite.config.ts"]
 }
