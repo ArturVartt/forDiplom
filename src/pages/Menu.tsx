@@ -287,7 +287,7 @@ const Menu = () => {
         />
       </div>
       <div className={styles.content}>
-        {createMenuSection("Холодные закуски", coldAppetizers)}
+        {createMenuSection("Холодные закуски ", coldAppetizers)}
         {createMenuSection("Основные блюда", mainCourses)}
         {createMenuSection("Десерты", desserts)}
       </div>
